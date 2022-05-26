@@ -1,5 +1,5 @@
-N = int(input())
-cnt = N//3 + N%3
+n = int(input())
+cnt = n//3 + n%3 #총 횟수
 if cnt % 2 == 0:
     print("SK")
 else:
