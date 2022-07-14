@@ -1,16 +1,16 @@
 def solution(board, moves):
     answer = 0
-    basket = []
-    height = -1
-    for j in moves:
-        for i in range(len(board)):
-            if board[i][j-1] != 0:
-                basket.append(board[i][j-1])
-                board[i][j-1] = 0
-                if len(basket) > 1:
-                    if basket[-1] == basket[-2]:                        
-                        basket.pop()
-                        basket.pop()
-                        answer += 2
+    bucket = []
+    for i in range(len(moves)):
+        for r in range(len(board)):
+            if board[r][moves[i]-1] != 0:
+                if bucket and board[r][moves[i]-1] == bucket[-1]:
+                    bucket.pop()
+                    answer += 2
+                else:
+                    bucket.append(board[r][moves[i]-1])
+                board[r][moves[i]-1] = 0
                 break
     return answer
+
+
