@@ -1,35 +1,35 @@
+def getDistance(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
 def solution(numbers, hand):
     answer = ''
-    keypad = {1:(0,0), 2:(0,1), 3:(0,2),
-             4:(1,0), 5:(1,1), 6:(1,2),
-             7:(2,0), 8:(2,1), 9:(2,2),
-             "*":(3,0), 0:(3,1), "#":(3,2)}
-    left = keypad["*"]
-    right = keypad["#"]
-
-    for i in numbers:
-        cur = keypad[i]
-        if i in (1, 4, 7):
-            answer += "L"
-            left = cur
-        elif i in (3, 6, 9):
-            answer += "R"
-            right = cur
+    coord = {1: (0,0), 2: (0,1), 3: (0,2),
+            4: (1,0), 5: (1,1), 6: (1,2),
+            7: (2,0), 8: (2,1), 9: (2,2),
+            10: (3,0), 0: (3,1), 11: (3,2)}
+    leftnow = coord[10]
+    rightnow = coord[11]
+    for num in numbers:
+        if num in (1, 4, 7):
+            answer += 'L'
+            leftnow = coord[num]
+        elif num in (3, 6, 9):
+            answer += 'R'
+            rightnow = coord[num]
         else:
-            distL = abs(left[0] - cur[0]) + abs(left[1]-cur[1])
-            distR = abs(right[0] - cur[0]) + abs(right[1]-cur[1])
-            if distL == distR:
-                if hand=="right":
-                    answer+= "R"
-                    right = cur
-                else:
-                    answer += "L"
-                    left = cur
-            elif distL < distR:
-                answer += "L"
-                left = cur
+            rightcost = getDistance(coord[num], rightnow)
+            leftcost = getDistance(coord[num], leftnow)
+            if rightcost > leftcost:
+                answer += 'L'
+                leftnow = coord[num]
+            elif rightcost < leftcost:
+                answer += 'R'
+                rightnow = coord[num]
             else:
-                answer += "R"
-                right = cur
-                
+                if hand == 'right':
+                    answer += 'R'
+                    rightnow = coord[num]
+                else:
+                    answer += 'L'
+                    leftnow = coord[num]                    
     return answer
